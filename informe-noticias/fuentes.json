@@ -1,0 +1,306 @@
+{
+  "version": "2026-10-15",
+  "user_agent": "ButtomNewsReader/1.0 (lector RSS personal)",
+  "politica_acceso": "1 pedido/s por dominio (o el Crawl-delay del sitio si es mayor), timeout 20 s, reintento solo ante 5xx, robots.txt verificado por URL en tiempo de ejecución. Las fuentes 'prohibido' no se consultan.",
+  "fuentes": [
+    {
+      "id": "clarin", "nombre": "Clarín", "linea_editorial": "Diario generalista de gran tirada, línea centro/centroderecha, crítico del kirchnerismo.",
+      "idioma": "es", "pais": "AR", "dominio": "www.clarin.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con Disallow solo para /api/, /_next/, /videos/*?, /autor/*? y rutas técnicas; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.clarin.com/rss/lo-ultimo/", "seccion": "ultimas", "prioridad": 1},
+        {"url": "https://www.clarin.com/rss/politica/", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.clarin.com/rss/economia/", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.clarin.com/rss/mundo/", "seccion": "mundo", "prioridad": 2},
+        {"url": "https://www.clarin.com/rss/sociedad/", "seccion": "sociedad", "prioridad": 2},
+        {"url": "https://www.clarin.com/rss/deportes/", "seccion": "deportes", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "ole", "nombre": "Olé", "linea_editorial": "Diario deportivo del Grupo Clarín, foco en fútbol argentino.",
+      "idioma": "es", "pais": "AR", "dominio": "www.ole.com.ar", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con Disallow solo para /_next/, /api/, /img/ y /diosas/; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.ole.com.ar/rss/velez/", "seccion": "velez", "prioridad": 1},
+        {"url": "https://www.ole.com.ar/rss/futbol-primera/", "seccion": "futbol-primera", "prioridad": 2},
+        {"url": "https://www.ole.com.ar/rss/seleccion/", "seccion": "seleccion", "prioridad": 2},
+        {"url": "https://www.ole.com.ar/rss/futbol-internacional/libertadores/", "seccion": "libertadores", "prioridad": 3},
+        {"url": "https://www.ole.com.ar/rss/ultimas-noticias/", "seccion": "ultimas", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "lanacion", "nombre": "La Nación", "linea_editorial": "Diario tradicional de línea liberal-conservadora, fuerte en política y economía.",
+      "idioma": "es", "pais": "AR", "dominio": "www.lanacion.com.ar", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * permite las notas; bloquea /buscador, /pf/api/, /*?utm_*, /*/amp y rutas de suscripción; no nombra rastreadores de IA. Los links del feed se canonizan sin utm antes de bajar. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/politica/?outputType=xml", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/economia/?outputType=xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/el-mundo/?outputType=xml", "seccion": "mundo", "prioridad": 2},
+        {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/sociedad/?outputType=xml", "seccion": "sociedad", "prioridad": 3},
+        {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/deportes/?outputType=xml", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "pagina12", "nombre": "Página/12", "linea_editorial": "Diario de centroizquierda, afín al peronismo/kirchnerismo, crítico del gobierno de Milei.",
+      "idioma": "es", "pais": "AR", "dominio": "www.pagina12.com.ar", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con Allow: /; no nombra rastreadores de IA. Los feeds viejos (/rss/...) dan 404; los vigentes están bajo /arc/outboundfeeds/rss/. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/el-pais/notas", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/economia/notas", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/portada", "seccion": "portada", "prioridad": 2},
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/sociedad/notas", "seccion": "sociedad", "prioridad": 2},
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/el-mundo/notas", "seccion": "mundo", "prioridad": 3},
+        {"url": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/deportes/notas", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "infobae", "nombre": "Infobae", "linea_editorial": "Portal digital de alto volumen, generalista, línea centro/centroderecha.",
+      "idioma": "es", "pais": "AR", "dominio": "www.infobae.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con único Disallow /buscador; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.infobae.com/arc/outboundfeeds/rss/category/politica/", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.infobae.com/arc/outboundfeeds/rss/category/economia/", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.infobae.com/arc/outboundfeeds/rss/category/sociedad/", "seccion": "sociedad", "prioridad": 2},
+        {"url": "https://www.infobae.com/arc/outboundfeeds/rss/category/america/", "seccion": "mundo", "prioridad": 3},
+        {"url": "https://www.infobae.com/arc/outboundfeeds/rss/category/deportes/", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "perfil", "nombre": "Perfil", "linea_editorial": "Diario de centro, independiente del oficialismo, con fuerte agenda política.",
+      "idioma": "es", "pais": "AR", "dominio": "www.perfil.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con Allow: /; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.perfil.com/feed/politica", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.perfil.com/feed/economia", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.perfil.com/feed/sociedad", "seccion": "sociedad", "prioridad": 2},
+        {"url": "https://www.perfil.com/feed/internacional", "seccion": "mundo", "prioridad": 3},
+        {"url": "https://www.perfil.com/feed/deportes", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "442", "nombre": "442 (Perfil)", "linea_editorial": "Portal deportivo del grupo Perfil.",
+      "idioma": "es", "pais": "AR", "dominio": "442.perfil.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * con Allow: /; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://442.perfil.com/feed", "seccion": "deportes", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "eldiarioar", "nombre": "elDiarioAR", "linea_editorial": "Diario digital progresista, socio local de elDiario.es.",
+      "idioma": "es", "pais": "AR", "dominio": "www.eldiarioar.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * bloquea solo /api/, /bbt*/ y /props/; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.eldiarioar.com/rss/politica/", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.eldiarioar.com/rss/economia/", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.eldiarioar.com/rss/", "seccion": "portada", "prioridad": 2},
+        {"url": "https://www.eldiarioar.com/rss/sociedad/", "seccion": "sociedad", "prioridad": 3},
+        {"url": "https://www.eldiarioar.com/rss/mundo/", "seccion": "mundo", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "ambito", "nombre": "Ámbito", "linea_editorial": "Diario económico-financiero, foco en mercados y política económica.",
+      "idioma": "es", "pais": "AR", "dominio": "www.ambito.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * sin Disallow (solo sitemaps); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.ambito.com/rss/pages/economia.xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.ambito.com/rss/pages/finanzas.xml", "seccion": "finanzas", "prioridad": 1},
+        {"url": "https://www.ambito.com/rss/pages/politica.xml", "seccion": "politica", "prioridad": 2},
+        {"url": "https://www.ambito.com/rss/pages/negocios.xml", "seccion": "negocios", "prioridad": 2},
+        {"url": "https://www.ambito.com/rss/ultimas-noticias.xml", "seccion": "ultimas", "prioridad": 3},
+        {"url": "https://www.ambito.com/rss/pages/mundo.xml", "seccion": "mundo", "prioridad": 3},
+        {"url": "https://www.ambito.com/rss/pages/deportes.xml", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "cronista", "nombre": "El Cronista", "linea_editorial": "Diario de economía y negocios, orientado al mundo empresario y financiero.",
+      "idioma": "es", "pais": "AR", "dominio": "www.cronista.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: / con Disallow /files/* (por eso NO se usan los feeds /files/rss/*.xml sino los de /arc/outboundfeeds/rss/, permitidos), /pf/api/, /preview/; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.cronista.com/arc/outboundfeeds/rss/category/economia-politica/?outputType=xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.cronista.com/arc/outboundfeeds/rss/?outputType=xml", "seccion": "portada", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "iprofesional", "nombre": "iProfesional", "linea_editorial": "Portal de economía, finanzas, impuestos y negocios para profesionales y pymes.",
+      "idioma": "es", "pais": "AR", "dominio": "www.iprofesional.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: / con Disallow /adjuntos/, /lifestyle/, /secciones/, /media/; bloquea scrapers clásicos (HTTrack, WebCopier) pero no rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.iprofesional.com/rss/economia", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.iprofesional.com/rss/finanzas", "seccion": "finanzas", "prioridad": 1},
+        {"url": "https://www.iprofesional.com/rss/impuestos", "seccion": "impuestos", "prioridad": 2},
+        {"url": "https://www.iprofesional.com/rss/negocios", "seccion": "negocios", "prioridad": 2},
+        {"url": "https://www.iprofesional.com/rss/comex", "seccion": "comercio-exterior", "prioridad": 3},
+        {"url": "https://www.iprofesional.com/rss/home", "seccion": "portada", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "lpo", "nombre": "La Política Online", "linea_editorial": "Portal de política y poder, con trascendidos; línea crítica de todos los gobiernos.",
+      "idioma": "es", "pais": "AR", "dominio": "www.lapoliticaonline.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: / con Disallow /nota/id_*__*/ y /nota/ajax/ (las notas del feed usan /seccion/slug/, permitidas); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.lapoliticaonline.com/files/rss/politica.xml", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.lapoliticaonline.com/files/rss/economia.xml", "seccion": "economia", "prioridad": 2},
+        {"url": "https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml", "seccion": "ultimas", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "tn", "nombre": "TN", "linea_editorial": "Canal de noticias del Grupo Clarín; cobertura generalista en tiempo real.",
+      "idioma": "es", "pais": "AR", "dominio": "tn.com.ar", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * bloquea rutas técnicas (/uploads/, /files/, /pb/, /node/, /search/, *?page=*) pero permite las notas; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://tn.com.ar/arc/outboundfeeds/rss/category/politica/?outputType=xml", "seccion": "politica", "prioridad": 1},
+        {"url": "https://tn.com.ar/arc/outboundfeeds/rss/category/economia/?outputType=xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://tn.com.ar/arc/outboundfeeds/rss/category/sociedad/?outputType=xml", "seccion": "sociedad", "prioridad": 2},
+        {"url": "https://tn.com.ar/arc/outboundfeeds/rss/category/internacional/?outputType=xml", "seccion": "mundo", "prioridad": 3},
+        {"url": "https://tn.com.ar/arc/outboundfeeds/rss/category/deportes/?outputType=xml", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "c5n", "nombre": "C5N", "linea_editorial": "Canal de noticias de línea afín al peronismo, crítico del gobierno de Milei.",
+      "idioma": "es", "pais": "AR", "dominio": "www.c5n.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * bloquea /.well-known/, /libs/ y /espectaculos/; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.c5n.com/rss/pages/politica.xml", "seccion": "politica", "prioridad": 1},
+        {"url": "https://www.c5n.com/rss/pages/economia.xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.c5n.com/rss/pages/ultimas-noticias.xml", "seccion": "ultimas", "prioridad": 3},
+        {"url": "https://www.c5n.com/rss/pages/deportes.xml", "seccion": "deportes", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "lpf", "nombre": "Liga Profesional de Fútbol", "linea_editorial": "Sitio oficial de la Liga: programación, resultados y comunicados.",
+      "idioma": "es", "pais": "AR", "dominio": "www.ligaprofesional.ar", "acceso": "texto_completo",
+      "robots_resumen": "WordPress estándar: Disallow /wp-admin/; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.ligaprofesional.ar/feed/", "seccion": "futbol", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "bloomberglinea", "nombre": "Bloomberg Línea", "linea_editorial": "Portal de economía y negocios para América Latina, enfoque de mercados.",
+      "idioma": "es", "pais": "LATAM", "dominio": "www.bloomberglinea.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: / con Disallow /test/, /anuncios/, /pf/api/v3/ y un par de notas puntuales; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.bloomberglinea.com/arc/outboundfeeds/rss/category/economia/?outputType=xml", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.bloomberglinea.com/arc/outboundfeeds/rss/category/negocios/?outputType=xml", "seccion": "negocios", "prioridad": 2},
+        {"url": "https://www.bloomberglinea.com/arc/outboundfeeds/rss/?outputType=xml", "seccion": "portada", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "batimes", "nombre": "Buenos Aires Times", "linea_editorial": "Semanario en inglés del grupo Perfil sobre Argentina; línea centrista.",
+      "idioma": "en", "pais": "AR", "dominio": "www.batimes.com.ar", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: / con Crawl-delay: 10 (se respeta: 1 pedido cada 10 s); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.batimes.com.ar/feed", "seccion": "argentina", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "herald", "nombre": "Buenos Aires Herald", "linea_editorial": "Medio digital en inglés sobre Argentina, línea progresista.",
+      "idioma": "en", "pais": "AR", "dominio": "buenosairesherald.com", "acceso": "texto_completo",
+      "robots_resumen": "WordPress estándar (Disallow /wp-admin/, /wp-includes/, /acceso); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://buenosairesherald.com/category/politics/feed/", "seccion": "politica", "prioridad": 1},
+        {"url": "https://buenosairesherald.com/feed/", "seccion": "portada", "prioridad": 2},
+        {"url": "https://buenosairesherald.com/category/economics/feed/", "seccion": "economia", "prioridad": 2},
+        {"url": "https://buenosairesherald.com/category/business/feed/", "seccion": "negocios", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "glossy", "nombre": "Glossy", "linea_editorial": "Medio de industria sobre belleza, moda y retail (Digiday Media).",
+      "idioma": "en", "pais": "US", "dominio": "www.glossy.co", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * sin Disallow (bloque Yoast); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.glossy.co/beauty/feed/", "seccion": "belleza", "prioridad": 1},
+        {"url": "https://www.glossy.co/feed/", "seccion": "portada", "prioridad": 3}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "modernretail", "nombre": "Modern Retail", "linea_editorial": "Medio de industria sobre retail y comercio electrónico (Digiday Media).",
+      "idioma": "en", "pais": "US", "dominio": "www.modernretail.co", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * sin Disallow (bloque Yoast); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.modernretail.co/feed/", "seccion": "retail", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "retaildive", "nombre": "Retail Dive", "linea_editorial": "Newsletter/portal de industria sobre retail en EE.UU. (Industry Dive).",
+      "idioma": "en", "pais": "US", "dominio": "www.retaildive.com", "acceso": "solo_rss",
+      "robots_resumen": "User-agent * con Crawl-delay 5 y rutas técnicas bloqueadas; restringe explícitamente a Amazonbot y omgili (rastreadores de datos/IA). Por prudencia se usa solo titular + resumen del feed.",
+      "feeds": [
+        {"url": "https://www.retaildive.com/feeds/news/", "seccion": "retail", "prioridad": 2}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "cosmeticsbusiness", "nombre": "Cosmetics Business", "linea_editorial": "Medio británico de industria cosmética y perfumería.",
+      "idioma": "en", "pais": "UK", "dominio": "www.cosmeticsbusiness.com", "acceso": "texto_completo",
+      "robots_resumen": "User-agent * Allow: /; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.cosmeticsbusiness.com/rss", "seccion": "belleza", "prioridad": 1}
+      ],
+      "verificado": "2026-10-15"
+    },
+    {
+      "id": "premiumbeauty", "nombre": "Premium Beauty News", "linea_editorial": "Medio francés de industria sobre perfumería, cosmética y packaging.",
+      "idioma": "en", "pais": "FR", "dominio": "www.premiumbeautynews.com", "acceso": "texto_completo",
+      "robots_resumen": "SPIP estándar: bloquea /ecrire/, /prive/, spip.php?action=*; Crawl-delay 1; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
+      "feeds": [
+        {"url": "https://www.premiumbeautynews.com/spip.php?page=backend", "seccion": "belleza", "prioridad": 1}
+      ],
+      "verificado": "2026-10-15"
+    }
+  ],
+  "apis": {
+    "dolar": "https://dolarapi.com/v1/dolares",
+    "dolar_por_tipo": "https://dolarapi.com/v1/dolares/{casa}  (oficial, blue, bolsa, contadoconliqui, mayorista, cripto, tarjeta)",
+    "riesgo_pais": "https://api.argentinadatos.com/v1/finanzas/indices/riesgo-pais/ultimo",
+    "bcra": {
+      "listado_variables": "https://api.bcra.gob.ar/estadisticas/v4.0/monetarias?limit=1000&offset=0  (1610 variables; v2 y v3 responden 410 deprecado)",
+      "base_serie": "https://api.bcra.gob.ar/estadisticas/v4.0/monetarias",
+      "formato_serie": "{status, metadata:{resultset:{count,offset,limit}}, results:[{idVariable, detalle:[{fecha, valor}]}]}",
+      "variables": {
+        "reservas_internacionales": {"id": 1, "descripcion": "Reservas internacionales (millones de USD)"},
+        "badlar_privados": {"id": 7, "descripcion": "Tasa de interés BADLAR de bancos privados (TNA %)"},
+        "plazo_fijo_30d": {"id": 12, "descripcion": "Tasa de interés de depósitos a 30 días de plazo en entidades financieras (TNA %)"},
+        "tamar_privados": {"id": 44, "descripcion": "Tasa de interés TAMAR de bancos privados (TNA %)"},
+        "tc_minorista": {"id": 4, "descripcion": "Tipo de cambio minorista (promedio vendedor)"},
+        "tc_mayorista": {"id": 5, "descripcion": "Tipo de cambio mayorista de referencia (Com. A 3500)"}
+      },
+      "cotizaciones": "https://api.bcra.gob.ar/estadisticascambiarias/v1.0/Cotizaciones (200, JSON {status, results:{fecha, detalle:[{codigoMoneda, descripcion, tipoPase, tipoCotizacion}]}})"
+    },
+    "indec_calendario": "https://www.indec.gob.ar/indec/web/Calendario-Fecha-0  (HTML 200; robots.txt del INDEC: User-agent * sin Disallow)"
+  },
+  "excluidas": [
+    {"nombre": "BBC Mundo", "dominio": "www.bbc.com", "feed": "https://feeds.bbci.co.uk/mundo/rss.xml", "motivo": "prohibido: robots.txt de bbc.com bloquea ClaudeBot, Claude-Web, anthropic-ai, CCBot y GPTBot. El feed responde, pero no se usa por respeto a esa política."},
+    {"nombre": "The Guardian", "dominio": "www.theguardian.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-SearchBot, Claude-User y CCBot."},
+    {"nombre": "Al Jazeera", "dominio": "www.aljazeera.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web y GPTBot."},
+    {"nombre": "DW Español", "dominio": "www.dw.com", "motivo": "prohibido: robots.txt de dw.com bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot (los feeds de rss.dw.com responden, pero no se usan)."},
+    {"nombre": "El País", "dominio": "elpais.com", "motivo": "prohibido: robots.txt bloquea ClaudeBot, Claude-User, Claude-SearchBot, Claude-Extension y CCBot; además feeds.elpais.com/robots.txt responde 403 con nuestro UA."},
+    {"nombre": "WWD", "dominio": "wwd.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot (solo permite /shop/)."},
+    {"nombre": "CNN en Español", "dominio": "cnnespanol.cnn.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot; además todos los feeds candidatos dan 404."},
+    {"nombre": "TyC Sports", "dominio": "www.tycsports.com", "motivo": "sin RSS (/rss, /feed y sitemap-news.xml dan 404) y robots.txt veda /nota/ y /noticias/ para User-agent *."},
+    {"nombre": "Vélez Sarsfield (sitio oficial)", "dominio": "velez.com.ar", "motivo": "sin feed utilizable: /feed/ y /wp-json/wp/v2/posts devuelven HTML de la portada, /rss responde 403."},
+    {"nombre": "AFA", "dominio": "www.afa.com.ar", "motivo": "/feed/ devuelve HTML (no XML); sin RSS descubierto en la portada."},
+    {"nombre": "Boletín Oficial", "dominio": "www.boletinoficial.gob.ar", "motivo": "/rss devuelve HTML; no se encontró RSS en la portada."},
+    {"nombre": "CAME", "dominio": "www.redcame.org.ar", "motivo": "/feed responde 404."},
+    {"nombre": "Reuters, AP, France 24, EFE, Google News RSS", "motivo": "excluidas por indicación previa: prohíben el acceso automatizado o a agentes de IA."}
+  ]
+}
