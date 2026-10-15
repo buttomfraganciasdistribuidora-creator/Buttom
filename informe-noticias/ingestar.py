@@ -626,21 +626,29 @@ ORDEN_SECCIONES = ["politica", "economia", "negocios", "mundo", "sociedad", "dep
 
 TEMAS = [
     ("velez", r"\bv[ée]lez\b|\bfort[ií]n\b|amalfitani|barros schelotto"),
-    ("perfumeria", r"perfum|fragancia|cosm[ée]tic|\bbelleza\b|\bbeauty\b|fragrance|lattafa|\bcapa\b|\bdupes?\b"),
+    ("perfumeria", r"perfum|fragancia|cosm[ée]tic|\bbelleza\b|\bbeauty\b|fragrance|lattafa|\bdupes?\b|arom[aá]tic|\bvelas?\b|difusor"),
     ("ecommerce", r"e-?commerce|comercio electr[oó]nico|mercado ?libre|mercado ?pago|tiendanube|shopify|cyber ?monday|hot ?sale|correo argentino|courier|andreani|log[ií]stica|\bshein\b|\btemu\b|\bamazon\b"),
-    ("normas", r"bolet[ií]n oficial|\bdecretos?\b|\bresoluci[oó]n\b|\barca\b|\bafip\b|\banmat\b|arancel|importaci[oó]n|ingresos brutos|monotribut|\bdnu\b"),
+    ("normas", r"bolet[ií]n oficial|\bdecretos?\b|\bresoluci[oó]n\b|\bafip\b|arancel|importaci[oó]n|ingresos brutos|monotribut"),
     ("caba", r"\bcaba\b|ciudad de buenos aires|jorge macri|porte[ñn]|legislatura porte|\bsubte\b|\babl\b"),
-    ("macro", r"\bd[oó]lar|riesgo pa[ií]s|\bbcra\b|inflaci[oó]n|\bindec\b|\btasas?\b|\bfmi\b|reservas|\bcaputo\b"),
-    ("consumo", r"\bcame\b|ventas minoristas|consumo masivo|scentia|\bcace\b|d[ií]a de la madre"),
+    ("macro", r"\bd[oó]lar|riesgo pa[ií]s|inflaci[oó]n|\btasas? de inter|\breservas\b|\bcaputo\b|banco central"),
+    ("consumo", r"ventas minoristas|consumo masivo|scentia|d[ií]a de la madre"),
     ("rumores", r"trascendi|\brumor|versiones?\b|\ben off\b|off the record|se especula|habr[ií]a\b|podr[ií]a\b"),
     ("agenda", r"\bhoy\b|\bma[ñn]ana\b|esta semana|\bvence\b|cronograma|calendario|se re[uú]ne|convoca|licitaci[oó]n|\bfixture\b"),
 ]
 TEMAS_RE = [(k, re.compile(p, re.I)) for k, p in TEMAS]
+# Siglas que solo cuentan en mayúsculas (CAPA, la cámara de cosmética, no "capa").
+TEMAS_SIGLAS = [("perfumeria", re.compile(r"\bCAPA\b")), ("consumo", re.compile(r"\bCAME\b|\bCACE\b")),
+                ("normas", re.compile(r"\bARCA\b|\bANMAT\b|\bDNU\b")), ("macro", re.compile(r"\bBCRA\b|\bINDEC\b|\bFMI\b"))]
 
 
 def detectar_temas(nota):
-    base = " ".join([nota.get("titulo") or "", nota.get("resumen") or "", (nota.get("texto") or "")[:3000]])
-    return [k for k, rx in TEMAS_RE if rx.search(base)]
+    """Etiqueta por título y resumen (no por el cuerpo: una mención al pasar no hace tema)."""
+    base = " ".join([nota.get("titulo") or "", nota.get("resumen") or ""])
+    temas = [k for k, rx in TEMAS_RE if rx.search(base)]
+    for k, rx in TEMAS_SIGLAS:
+        if k not in temas and rx.search(base):
+            temas.append(k)
+    return temas
 
 
 def fecha_local(iso):
