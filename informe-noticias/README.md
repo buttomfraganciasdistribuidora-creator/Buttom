@@ -21,5 +21,6 @@ La página del informe tiene botones para dejar comentarios anclados al texto (�
 «Dejar una nota general»). Son los comentarios nativos de los artifacts de claude.ai: la rutina los lee cada mañana y
 responde en la sección "Tus notas" del informe siguiente; los enviados con "Enviar a Claude" se responden en el mismo hilo.
 
+`prompt_rutina.md` es una copia del prompt que corre la rutina cada mañana (la versión que vale es la guardada en la rutina).
 `preferencias.md` guarda los ajustes permanentes que pidió el lector (los que deben repetirse todos los días). La rutina lo
 lee al empezar cada edición; se edita desde el chat, no desde la rutina.
