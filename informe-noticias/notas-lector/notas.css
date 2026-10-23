@@ -1,0 +1,10 @@
+
+/* Notas del lector: bloque de ayuda y botones neutros. Los botones solo se muestran si la vista puede abrir el compositor de comentarios. */
+.notas{border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:8px}
+.notas[hidden]{display:none}
+.notas p{margin:0}
+.btn-nota{font:inherit;font-size:13px;line-height:1.4;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;align-self:flex-start;touch-action:manipulation}
+.btn-nota:hover{color:var(--fg);background:var(--hover)}
+.btn-nota:focus-visible{color:var(--fg);background:var(--hover);outline:2px solid var(--muted);outline-offset:2px}
+.nota-ficha{display:flex;justify-content:flex-end;margin-top:2px}
+#nota-sel{position:absolute;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.12)}
