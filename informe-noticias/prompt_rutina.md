@@ -1,6 +1,7 @@
 Armá el INFORME DIARIO DE NOTICIAS para el dueño de Buttom (distribuidora de fragancias en CABA, Argentina; vende online por Shopify y envía por Correo Argentino). Es hincha de Vélez Sarsfield y le encantan los deportes. Escribí en español rioplatense (voseo). La fecha de hoy está en tu contexto.
 
 PASO 0. INGESTA (obligatorio, antes de buscar nada en la web)
+Antes de todo: si existe /tmp/ingesta/indice/_resumen.md y su línea «Hoy:» tiene la fecha de hoy, la ingesta ya la corrió el script de configuración del entorno. En ese caso hacé solo a) (para tener preferencias.md), no vuelvas a correr el script y seguí en e). Si no existe o es de otro día, seguí con a), b) y c).
 a) Cloná el repositorio: `git clone --depth 1 --branch informe-noticias https://github.com/buttomfraganciasdistribuidora-creator/Buttom.git /home/user/Buttom`. Si fallara por permisos, usá la herramienta add_repo del servidor claude-code-remote (owner "buttomfraganciasdistribuidora-creator", repo "Buttom", access "read") y clonalo con el comando que devuelva, después `git fetch origin informe-noticias && git checkout informe-noticias`. El script vive en informe-noticias/ingestar.py y el registro de fuentes en informe-noticias/fuentes.json (su README explica el uso).
 b) Corré `pip install -q feedparser trafilatura` (mejora el parseo y la extracción; si falla, el script funciona igual con la biblioteca estándar).
 c) Corré: `mkdir -p /tmp/ingesta && cd /home/user/Buttom/informe-noticias && python3 -I ingestar.py --fuentes fuentes.json --salida /tmp/ingesta/notas.json`. Tarda entre 2 y 5 minutos y respeta robots.txt, un pedido por segundo por dominio y un user-agent honesto: no lo modifiques ni intentes abrir medios por otra vía. Genera en /tmp/ingesta/:
@@ -10,7 +11,7 @@ c) Corré: `mkdir -p /tmp/ingesta && cd /home/user/Buttom/informe-noticias && py
    - indice/tema_<tema>.md para velez, perfumeria, ecommerce, normas, caba, macro, consumo, rumores y agenda.
    - textos/<id>.md: texto completo de las notas marcadas TEXTO (hasta 12 por medio).
    - notas.json: todo junto. NO lo leas entero (pesa varios MB): usá los índices y abrí los textos por id.
-d) Si no podés clonar el repositorio, o el script falla dos veces seguidas, armá el informe con WebSearch y decilo en la primera línea de la página y de tu respuesta.
+d) Si no podés clonar el repositorio, si el script falla dos veces seguidas, o si el entorno te deniega el permiso para correrlo, armá igual el informe con WebSearch y decilo en la primera línea de la página y de tu respuesta. Ante un permiso denegado no reintentes ni reformules el comando para esquivarlo; en la línea final del chat avisá que hay que revisar el script de configuración del entorno (informe-noticias/setup_entorno.sh).
 e) Leé informe-noticias/preferencias.md del repositorio: son ajustes permanentes que pidió el lector (cobertura, formato, datos fijos). Aplicalos en la edición de hoy. Si el archivo no existe o está vacío, seguí igual.
 
 PASO 0 BIS. NOTAS DEL LECTOR (antes de redactar)
