@@ -624,6 +624,21 @@ SECCION_INFORME = {
 }
 ORDEN_SECCIONES = ["politica", "economia", "negocios", "mundo", "sociedad", "deportes", "general"]
 
+
+def seccion_de_nota(seccion_feed, link):
+    """Sección de una nota. Si el feed es general (portada, últimas), la toma del camino del link
+    cuando uno de sus tramos es una sección conocida (p. ej. /noticias/politica/...); si no, la del feed."""
+    if SECCION_INFORME.get(seccion_feed or "", "general") != "general":
+        return seccion_feed
+    try:
+        tramos = urllib.parse.urlsplit(link or "").path.lower().split("/")
+    except ValueError:
+        return seccion_feed
+    for t in tramos:
+        if t and SECCION_INFORME.get(t, "general") != "general":
+            return t
+    return seccion_feed
+
 TEMAS = [
     ("velez", r"\bv[ée]lez\b|\bfort[ií]n\b|amalfitani|barros schelotto"),
     ("perfumeria", r"perfum|fragancia|cosm[ée]tic|\bbelleza\b|\bbeauty\b|fragrance|lattafa|\bdupes?\b|arom[aá]tic|\bvelas?\b|difusor"),
@@ -833,8 +848,8 @@ def procesar_fuente(fuente, desde, hasta, resultado):
                     "fuente": fid,
                     "linea_editorial": fuente.get("linea_editorial", ""),
                     "idioma": fuente.get("idioma", "es"),
-                    "seccion": feed.get("seccion", ""),
-                    "seccion_informe": SECCION_INFORME.get(feed.get("seccion", ""), "general"),
+                    "seccion": seccion_de_nota(feed.get("seccion", ""), link_orig),
+                    "seccion_informe": SECCION_INFORME.get(seccion_de_nota(feed.get("seccion", ""), link_orig), "general"),
                     "prioridad": feed.get("prioridad", 3),
                     "titulo": titulo,
                     "resumen": limpiar_html(it.get("resumen") or "")[:1200],

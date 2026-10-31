@@ -75,13 +75,14 @@
       "idioma": "es", "pais": "AR", "dominio": "www.perfil.com", "acceso": "texto_completo",
       "robots_resumen": "User-agent * con Allow: /; no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
       "feeds": [
-        {"url": "https://www.perfil.com/feed/politica", "seccion": "politica", "prioridad": 1},
-        {"url": "https://www.perfil.com/feed/economia", "seccion": "economia", "prioridad": 1},
+        {"url": "https://www.perfil.com/feed", "seccion": "portada", "prioridad": 1},
+        {"url": "https://www.perfil.com/feed/negocios", "seccion": "economia", "prioridad": 2},
         {"url": "https://www.perfil.com/feed/sociedad", "seccion": "sociedad", "prioridad": 2},
         {"url": "https://www.perfil.com/feed/internacional", "seccion": "mundo", "prioridad": 3},
-        {"url": "https://www.perfil.com/feed/deportes", "seccion": "deportes", "prioridad": 3}
+        {"url": "https://www.perfil.com/feed/modo-fontevecchia", "seccion": "portada", "prioridad": 3}
       ],
-      "verificado": "2026-10-15"
+      "nota_feeds": "31/10/2026: /feed/politica sirve ítems de junio y /feed/economia da 404, así que se usan el feed general y el de Modo Fontevecchia; la sección de cada nota sale de su link (/noticias/politica/, /noticias/economia/). /feed/deportes se actualiza con días de rezago: el deporte del grupo llega por 442.",
+      "verificado": "2026-10-31"
     },
     {
       "id": "442", "nombre": "442 (Perfil)", "linea_editorial": "Portal deportivo del grupo Perfil.",
@@ -210,18 +211,6 @@
       "verificado": "2026-10-15"
     },
     {
-      "id": "herald", "nombre": "Buenos Aires Herald", "linea_editorial": "Medio digital en inglés sobre Argentina, línea progresista.",
-      "idioma": "en", "pais": "AR", "dominio": "buenosairesherald.com", "acceso": "texto_completo",
-      "robots_resumen": "WordPress estándar (Disallow /wp-admin/, /wp-includes/, /acceso); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
-      "feeds": [
-        {"url": "https://buenosairesherald.com/category/politics/feed/", "seccion": "politica", "prioridad": 1},
-        {"url": "https://buenosairesherald.com/feed/", "seccion": "portada", "prioridad": 2},
-        {"url": "https://buenosairesherald.com/category/economics/feed/", "seccion": "economia", "prioridad": 2},
-        {"url": "https://buenosairesherald.com/category/business/feed/", "seccion": "negocios", "prioridad": 3}
-      ],
-      "verificado": "2026-10-15"
-    },
-    {
       "id": "glossy", "nombre": "Glossy", "linea_editorial": "Medio de industria sobre belleza, moda y retail (Digiday Media).",
       "idioma": "en", "pais": "US", "dominio": "www.glossy.co", "acceso": "texto_completo",
       "robots_resumen": "User-agent * sin Disallow (bloque Yoast); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
@@ -296,6 +285,7 @@
     {"nombre": "El País", "dominio": "elpais.com", "motivo": "prohibido: robots.txt bloquea ClaudeBot, Claude-User, Claude-SearchBot, Claude-Extension y CCBot; además feeds.elpais.com/robots.txt responde 403 con nuestro UA."},
     {"nombre": "WWD", "dominio": "wwd.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot (solo permite /shop/)."},
     {"nombre": "CNN en Español", "dominio": "cnnespanol.cnn.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot; además todos los feeds candidatos dan 404."},
+    {"nombre": "Buenos Aires Herald", "dominio": "buenosairesherald.com", "feed": "https://buenosairesherald.com/feed/", "motivo": "prohibido desde octubre de 2026: robots.txt bloquea ClaudeBot, anthropic-ai, GPTBot y CCBot. Se sacó de las fuentes por respeto a esa política (antes se leía con texto completo)."},
     {"nombre": "TyC Sports", "dominio": "www.tycsports.com", "motivo": "sin RSS (/rss, /feed y sitemap-news.xml dan 404) y robots.txt veda /nota/ y /noticias/ para User-agent *."},
     {"nombre": "Vélez Sarsfield (sitio oficial)", "dominio": "velez.com.ar", "motivo": "sin feed utilizable: /feed/ y /wp-json/wp/v2/posts devuelven HTML de la portada, /rss responde 403."},
     {"nombre": "AFA", "dominio": "www.afa.com.ar", "motivo": "/feed/ devuelve HTML (no XML); sin RSS descubierto en la portada."},

@@ -25,7 +25,7 @@ PASO 1. REDACCIÓN (lanzá subagentes en paralelo, uno por sección del informe)
 - A cada subagente pasale: el índice de su sección, los índices de tema que le correspondan, la ruta de textos/, indice/fuentes.md y las REGLAS de abajo textuales. Trabaja SOLO con esas notas: elige las más importantes del día, abre los textos/<id>.md que necesite, contrasta medios de líneas editoriales distintas y escribe las fichas en el formato de abajo.
 - WebSearch y WebFetch solo sirven para completar un dato puntual que no esté en los feeds (el calendario del INDEC, un resultado deportivo, una norma del Boletín Oficial); nunca como fuente principal y nunca para abrir medios que no estén en fuentes.json.
 - "Datos del día" sale del bloque de datos de _resumen.md: citá dolarapi.com, argentinadatos y la API del BCRA con la fecha de cada dato. Si el mercado todavía no abrió, aclará que son valores del cierre anterior. Si un dato figura como NO DISPONIBLE, decilo.
-- Fuentes excluidas, porque prohíben el acceso automatizado o a agentes de IA: BBC, El País, DW, The Guardian, Al Jazeera, CNN en Español, WWD, TyC Sports, Reuters, AP, EFE, France 24, CAPA y Google News. No las consultes. Si una noticia solo la tienen ellas, usá lo que muestre WebSearch (titular y resumen) marcado ⚠️.
+- Fuentes excluidas, porque prohíben el acceso automatizado o a agentes de IA: BBC, El País, DW, The Guardian, Al Jazeera, CNN en Español, WWD, Buenos Aires Herald, TyC Sports, Reuters, AP, EFE, France 24, CAPA y Google News. No las consultes. Si una noticia solo la tienen ellas, usá lo que muestre WebSearch (titular y resumen) marcado ⚠️.
 
 REGLAS (no negociables)
 - Cero fake news. Cada dato lleva su fuente (el link de la nota del índice). Si no lo podés verificar, no lo pongas como hecho. No inventes resultados, fixtures ni cotizaciones.
@@ -33,7 +33,7 @@ REGLAS (no negociables)
 - Separá HECHOS (qué pasó) de MIRADAS (cómo lo interpreta cada medio o actor).
 - RIGOR CON LOS NÚMEROS: el lector lee con lupa. Todo porcentaje o cifra estadística tiene que decir: (1) contra qué se compara (interanual, mensual o acumulado); (2) si es real o nominal, en pesos o en dólares; (3) quién lo mide y cómo (por ejemplo: el dato de perfumería que publica CAME lo aporta la Cámara de Perfumerías, con unas 267 perfumerías físicas; Scentia; INDEC); (4) qué incluye y qué no la categoría. Si algo no se sabe, decilo. Nunca escribas solo "creció X%".
 - Las notas en inglés (idioma "en") se resumen en español y el medio se marca con "EN".
-- Contrastá cómo cubre Argentina la prensa extranjera (Buenos Aires Times, Buenos Aires Herald, Bloomberg Línea) y cómo la cubren los medios locales.
+- Contrastá cómo cubre Argentina la prensa extranjera (Buenos Aires Times, Bloomberg Línea) y cómo la cubren los medios locales.
 - Preferí fuentes primarias cuando aparezcan: Boletín Oficial, INDEC, BCRA, CAME, FMI, comunicados y fallos.
 - No des tu opinión. El lector quiere evaluar varias miradas y formar la suya.
 - Excluí policiales.
