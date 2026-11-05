@@ -22,9 +22,9 @@ Uso:
   python3 -I fotos.py --notas /tmp/ingesta/notas.json --ids id1,id2,... --dir CARPETA/fotos/2026-11-05 \
       --prefijo fotos/2026-11-05/ --manifest CARPETA/fotos/manifest.json [--fuentes fuentes.json]
 """
-import argparse, datetime as dt, importlib.util, json, os, re, struct, sys, time, urllib.error, urllib.parse
+import argparse, datetime as dt, hashlib, importlib.util, json, os, re, struct, sys, time, urllib.error, urllib.parse
 
-MAX_FOTOS = 40                # tope por corrida
+MAX_FOTOS = 60                # tope por corrida (una edición trae unas 50 fichas)
 MAX_BYTES_FOTO = 1_500_000    # tope de tamaño por imagen
 MAX_BYTES_TOTAL = 40_000_000  # tope para todas las fotos de la corrida (la página se publica con ellas)
 MIN_BYTES_FOTO = 2_000        # menos que esto suele ser un píxel de seguimiento o un ícono
@@ -338,7 +338,7 @@ def main(argv=None):
         if ids:
             os.makedirs(a.dir, exist_ok=True)
             red = Red(excluidos)
-        total = 0
+        total, vistas = 0, {}   # vistas: sha256 de cada imagen ya guardada -> id de su nota
         for i in ids:
             nota = notas.get(i)
             if not nota:
@@ -351,6 +351,10 @@ def main(argv=None):
                 cuerpo, fmt, ancho, alto, medio = bajar(red, nota, fuentes, excluidos)
                 if total + len(cuerpo) > MAX_BYTES_TOTAL:
                     raise ValueError(f"no entra en el tope de {MAX_BYTES_TOTAL // 1_000_000} MB de fotos")
+                huella = hashlib.sha256(cuerpo).hexdigest()
+                if huella in vistas:   # la misma foto (o la imagen genérica del medio) no se repite en dos fichas
+                    raise ValueError(f"es la misma imagen que la de {vistas[huella]}")
+                vistas[huella] = i
                 total += len(cuerpo)
                 archivo = nombre_archivo(i, fmt)
                 destino = os.path.join(a.dir, archivo)
@@ -359,7 +363,7 @@ def main(argv=None):
                     f.write(cuerpo)
                 os.replace(tmp, destino)
                 res["fotos"].append({"id": i, "archivo": a.prefijo + archivo, "local": destino, "formato": fmt,
-                                     "ancho": ancho, "alto": alto, "bytes": len(cuerpo),
+                                     "ancho": ancho, "alto": alto, "bytes": len(cuerpo), "sha256": huella,
                                      "fuente": nota.get("fuente"), "medio": medio,
                                      "link": nota.get("link"), "imagen": nota.get("imagen")})
             except (ValueError, urllib.error.URLError, OSError) as e:

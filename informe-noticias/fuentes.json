@@ -133,7 +133,7 @@
     },
     {
       "id": "iprofesional", "nombre": "iProfesional", "linea_editorial": "Portal de economía, finanzas, impuestos y negocios para profesionales y pymes.",
-      "idioma": "es", "pais": "AR", "dominio": "www.iprofesional.com", "acceso": "texto_completo",
+      "idioma": "es", "pais": "AR", "dominio": "www.iprofesional.com", "acceso": "texto_completo", "dominios_imagen": ["iproimg.com"],
       "robots_resumen": "User-agent * Allow: / con Disallow /adjuntos/, /lifestyle/, /secciones/, /media/; bloquea scrapers clásicos (HTTrack, WebCopier) pero no rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
       "feeds": [
         {"url": "https://www.iprofesional.com/rss/economia", "seccion": "economia", "prioridad": 1},
