@@ -15,6 +15,23 @@ agentes de IA no se consultan (bloque `excluidas` de `fuentes.json`).
 
 Para sumar o sacar un medio, editá `fuentes.json` (campo `acceso`: `texto_completo` o `solo_rss`).
 
+## Termómetro de tendencias
+
+Después de la ingesta, `tendencias.py` arma el termómetro:
+
+```
+python3 -I tendencias.py --notas /tmp/ingesta/notas.json --salida /tmp/ingesta/tendencias.json --md /tmp/ingesta/indice/tendencias.md
+```
+
+Mide tres cosas: qué temas tocan más medios de la ingesta (sin pedir nada a internet), qué búsquedas suben en Google
+en la Argentina (RSS oficial de Google Trends) y qué es tendencia en X en la Argentina, leído del espejo público
+trends24.in porque X no permite la lectura automática. Cada tendencia se cruza con las notas de la ingesta para ver
+si algún medio la cubre. Es un indicador de conversación, no una fuente: en el informe nunca entra como dato.
+
+Mismos principios de red que la ingesta. Si robots.txt no se puede leer, no pide nada a ese sitio. Cada pedido tiene
+un límite de tiempo y de tamaño, y la corrida un presupuesto total de 120 s de red. Escribe siempre los dos
+archivos de salida, aunque fallen las tres medidas.
+
 ## Notas del lector
 
 La página del informe tiene botones para dejar comentarios anclados al texto («Comentar lo marcado», «Comentar esta ficha»,
