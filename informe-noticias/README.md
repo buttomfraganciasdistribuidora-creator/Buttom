@@ -32,6 +32,23 @@ Mismos principios de red que la ingesta. Si robots.txt no se puede leer, no pide
 un límite de tiempo y de tamaño, y la corrida un presupuesto total de 120 s de red. Escribe siempre los dos
 archivos de salida, aunque fallen las tres medidas.
 
+## Fotos de las fichas
+
+La ingesta guarda en cada nota el campo `imagen` (la foto que el medio publica en su feed o en las etiquetas
+og:image de la nota; solo en fuentes con acceso `texto_completo`). `fotos.py` baja únicamente las de las notas que
+cita cada ficha:
+
+```
+python3 -I fotos.py --notas /tmp/ingesta/notas.json --fuentes fuentes.json --ids id1,id2 \
+    --dir SCRATCH/fotos/2026-11-05 --prefijo fotos/2026-11-05/ --manifest SCRATCH/fotos/manifest.json
+```
+
+Solo pide imágenes al propio medio de la nota (su `dominio` o los `dominios_imagen` declarados en `fuentes.json`),
+nunca a un dominio de `excluidas` (`dominio` o `dominios`), también en redirecciones y en la lectura de robots.txt.
+Si el robots.txt bloquea agentes de IA no pide nada, respeta el Crawl-delay (más de 60 s: no pide) y, si no puede leer
+`fuentes.json`, no baja ninguna foto. El efecto vintage lo pone el CSS de la página (`.foto`). Las fotos se guardan en
+el scratchpad porque Artifact no publica archivos de /tmp.
+
 ## Notas del lector
 
 La página del informe tiene botones para dejar comentarios anclados al texto («Comentar lo marcado», «Comentar esta ficha»,

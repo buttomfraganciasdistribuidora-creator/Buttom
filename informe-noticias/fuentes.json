@@ -32,7 +32,7 @@
     },
     {
       "id": "lanacion", "nombre": "La Nación", "linea_editorial": "Diario tradicional de línea liberal-conservadora, fuerte en política y economía.",
-      "idioma": "es", "pais": "AR", "dominio": "www.lanacion.com.ar", "acceso": "texto_completo",
+      "idioma": "es", "pais": "AR", "dominio": "www.lanacion.com.ar", "dominios_imagen": ["glanacion.com"], "acceso": "texto_completo",
       "robots_resumen": "User-agent * permite las notas; bloquea /buscador, /pf/api/, /*?utm_*, /*/amp y rutas de suscripción; no nombra rastreadores de IA. Los links del feed se canonizan sin utm antes de bajar. Nota de prueba HTTP 200 con texto extraíble.",
       "feeds": [
         {"url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/politica/?outputType=xml", "seccion": "politica", "prioridad": 1},
@@ -203,7 +203,7 @@
     },
     {
       "id": "batimes", "nombre": "Buenos Aires Times", "linea_editorial": "Semanario en inglés del grupo Perfil sobre Argentina; línea centrista.",
-      "idioma": "en", "pais": "AR", "dominio": "www.batimes.com.ar", "acceso": "texto_completo",
+      "idioma": "en", "pais": "AR", "dominio": "www.batimes.com.ar", "dominios_imagen": ["perfil.com"], "acceso": "texto_completo",
       "robots_resumen": "User-agent * Allow: / con Crawl-delay: 10 (se respeta: 1 pedido cada 10 s); no nombra rastreadores de IA. Nota de prueba HTTP 200 con texto extraíble.",
       "feeds": [
         {"url": "https://www.batimes.com.ar/feed", "seccion": "argentina", "prioridad": 2}
@@ -278,8 +278,8 @@
     "indec_calendario": "https://www.indec.gob.ar/indec/web/Calendario-Fecha-0  (HTML 200; robots.txt del INDEC: User-agent * sin Disallow)"
   },
   "excluidas": [
-    {"nombre": "BBC Mundo", "dominio": "www.bbc.com", "feed": "https://feeds.bbci.co.uk/mundo/rss.xml", "motivo": "prohibido: robots.txt de bbc.com bloquea ClaudeBot, Claude-Web, anthropic-ai, CCBot y GPTBot. El feed responde, pero no se usa por respeto a esa política."},
-    {"nombre": "The Guardian", "dominio": "www.theguardian.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-SearchBot, Claude-User y CCBot."},
+    {"nombre": "BBC Mundo", "dominio": "www.bbc.com", "dominios": ["bbci.co.uk"], "feed": "https://feeds.bbci.co.uk/mundo/rss.xml", "motivo": "prohibido: robots.txt de bbc.com bloquea ClaudeBot, Claude-Web, anthropic-ai, CCBot y GPTBot. El feed responde, pero no se usa por respeto a esa política."},
+    {"nombre": "The Guardian", "dominio": "www.theguardian.com", "dominios": ["guim.co.uk"], "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-SearchBot, Claude-User y CCBot."},
     {"nombre": "Al Jazeera", "dominio": "www.aljazeera.com", "motivo": "prohibido: robots.txt bloquea anthropic-ai, ClaudeBot, Claude-Web y GPTBot."},
     {"nombre": "DW Español", "dominio": "www.dw.com", "motivo": "prohibido: robots.txt de dw.com bloquea anthropic-ai, ClaudeBot, Claude-Web, CCBot y GPTBot (los feeds de rss.dw.com responden, pero no se usan)."},
     {"nombre": "El País", "dominio": "elpais.com", "motivo": "prohibido: robots.txt bloquea ClaudeBot, Claude-User, Claude-SearchBot, Claude-Extension y CCBot; además feeds.elpais.com/robots.txt responde 403 con nuestro UA."},
@@ -291,6 +291,6 @@
     {"nombre": "AFA", "dominio": "www.afa.com.ar", "motivo": "/feed/ devuelve HTML (no XML); sin RSS descubierto en la portada."},
     {"nombre": "Boletín Oficial", "dominio": "www.boletinoficial.gob.ar", "motivo": "/rss devuelve HTML; no se encontró RSS en la portada."},
     {"nombre": "CAME", "dominio": "www.redcame.org.ar", "motivo": "/feed responde 404."},
-    {"nombre": "Reuters, AP, France 24, EFE, Google News RSS", "motivo": "excluidas por indicación previa: prohíben el acceso automatizado o a agentes de IA."}
+    {"nombre": "Reuters, AP, France 24, EFE, Google News RSS", "dominios": ["reuters.com", "apnews.com", "france24.com", "efe.com", "news.google.com"], "motivo": "excluidas por indicación previa: prohíben el acceso automatizado o a agentes de IA."}
   ]
 }

@@ -476,25 +476,49 @@ def limpiar_html(s):
 # etiquetas og:image / twitter:image de la nota). La ingesta no baja imágenes: eso lo hace fotos.py,
 # y solo para las fichas del informe, con el medio en el pie.
 
-def url_imagen(u, base=""):
-    """Dirección absoluta http(s) de una imagen, o None."""
-    if not u or not isinstance(u, str):
+def url_imagen(u, base="", desescapar=False):
+    """Dirección absoluta http(s) de una imagen, o None. Nunca lanza.
+    desescapar=True solo para valores sacados con una expresión regular de HTML crudo (los que ya pasaron por
+    el parser XML o por feedparser ya vienen decodificados y no se vuelven a decodificar)."""
+    try:
+        if not u or not isinstance(u, str):
+            return None
+        u = u.strip()
+        if desescapar:
+            u = html.unescape(u)
+        if not u or u.lower().startswith("data:"):
+            return None
+        u = urllib.parse.urljoin(base, u) if base else u
+        if urllib.parse.urlsplit(u).scheme not in ("http", "https"):
+            return None
+        return u[:1000]
+    except Exception:
         return None
-    u = html.unescape(u.strip())
-    if not u or u.startswith("data:"):
-        return None
-    u = urllib.parse.urljoin(base, u) if base else u
-    if urllib.parse.urlsplit(u).scheme not in ("http", "https"):
-        return None
-    return u[:1000]
+
+
+def _attr(tag, nombre):
+    m = re.search(r"""\b%s\s*=\s*["']([^"']*)["']""" % re.escape(nombre), tag, re.I)
+    return m.group(1) if m else None
 
 
 def imagen_de_html(fragmento, base=""):
-    """Primera <img src> de un fragmento HTML (resumen o contenido de un ítem del feed)."""
+    """Imagen de un fragmento HTML (resumen o contenido de un ítem del feed): la primera <img> que sirva.
+    Prefiere data-src / data-lazy-src / data-original (carga diferida) y saltea data: y píxeles de 1 o 2 px."""
     if not fragmento:
         return None
-    m = re.search(r"""<img\b[^>]*?\bsrc\s*=\s*["']([^"']+)["']""", fragmento, re.I)
-    return url_imagen(m.group(1), base) if m else None
+    try:
+        for m in re.finditer(r"<img\b[^>]*>", fragmento, re.I):
+            tag = m.group(0)
+            ancho, alto = _attr(tag, "width"), _attr(tag, "height")
+            if (ancho and ancho.isdigit() and int(ancho) <= 2) or (alto and alto.isdigit() and int(alto) <= 2):
+                continue
+            for nombre in ("data-src", "data-lazy-src", "data-original", "src"):
+                u = url_imagen(_attr(tag, nombre), base, desescapar=True)
+                if u:
+                    return u
+    except Exception:
+        return None
+    return None
 
 
 def imagen_og(pagina, base=""):
@@ -507,7 +531,7 @@ def imagen_og(pagina, base=""):
             tag = m.group(0)
             if re.search(r"""(?:property|name)\s*=\s*["']%s["']""" % re.escape(prop), tag, re.I):
                 c = re.search(r"""content\s*=\s*["']([^"']+)["']""", tag, re.I)
-                u = url_imagen(c.group(1), base) if c else None
+                u = url_imagen(c.group(1), base, desescapar=True) if c else None
                 if u:
                     return u
     return None
@@ -535,24 +559,33 @@ _NS_MEDIA = "{http://search.yahoo.com/mrss/}"
 
 
 def _imagen_item_xml(it, base=""):
-    """Imagen de un ítem RSS: enclosure de imagen, media:content / media:thumbnail, o la primera <img> del texto."""
-    for enc in it.findall("enclosure"):
-        if (enc.get("type") or "").lower().startswith("image/"):
-            u = url_imagen(enc.get("url"), base)
-            if u:
-                return u
-    for el in it.iter():
-        if el.tag in (_NS_MEDIA + "content", _NS_MEDIA + "thumbnail"):
-            tipo = (el.get("type") or "").lower()
-            medio = (el.get("medium") or "").lower()
-            if el.tag.endswith("thumbnail") or medio == "image" or tipo.startswith("image/"):
-                u = url_imagen(el.get("url"), base)
+    """Imagen de un ítem RSS: enclosure de imagen, media:content / media:thumbnail (la más ancha), o la primera
+    <img> que sirva del texto. Nunca lanza: una imagen rara no puede tirar abajo el feed."""
+    try:
+        for enc in it.findall("enclosure"):
+            if (enc.get("type") or "").lower().startswith("image/"):
+                u = url_imagen(enc.get("url"), base)
                 if u:
                     return u
-    for nombre in ("description", "{http://purl.org/rss/1.0/modules/content/}encoded"):
-        u = imagen_de_html(_txt(it.find(nombre)), base)
-        if u:
-            return u
+        candidatas = []
+        for el in it.iter():
+            if el.tag in (_NS_MEDIA + "content", _NS_MEDIA + "thumbnail"):
+                tipo = (el.get("type") or "").lower()
+                medio = (el.get("medium") or "").lower()
+                es_imagen = (el.tag.endswith("thumbnail") or medio == "image" or tipo.startswith("image/")
+                             or (not tipo and not medio))
+                u = url_imagen(el.get("url"), base) if es_imagen else None
+                if u:
+                    ancho = el.get("width") or ""
+                    candidatas.append((int(ancho) if ancho.isdigit() else 0, u))
+        if candidatas:
+            return max(candidatas, key=lambda c: c[0])[1]
+        for nombre in ("description", "{http://purl.org/rss/1.0/modules/content/}encoded"):
+            u = imagen_de_html(_txt(it.find(nombre)), base)
+            if u:
+                return u
+    except Exception:
+        return None
     return None
 
 
@@ -955,7 +988,8 @@ def procesar_fuente(fuente, desde, hasta, resultado):
                     "texto": None,
                     "texto_recortado": False,
                     "metodo": "rss",
-                    "imagen": url_imagen(it.get("imagen"), link_orig),
+                    # la foto se usa solo de los medios con acceso a texto completo (los «solo_rss» quedan sin foto)
+                    "imagen": url_imagen(it.get("imagen"), link_orig) if fuente.get("acceso") == "texto_completo" else None,
                 }
                 nota["temas"] = detectar_temas(nota)
                 notas.append(nota)
