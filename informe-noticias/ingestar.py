@@ -471,6 +471,48 @@ def limpiar_html(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+# ------------------------------------------------------------- imágenes
+# Solo se guarda la DIRECCIÓN de la imagen de cada nota (la que el medio publica en su feed o en las
+# etiquetas og:image / twitter:image de la nota). La ingesta no baja imágenes: eso lo hace fotos.py,
+# y solo para las fichas del informe, con el medio en el pie.
+
+def url_imagen(u, base=""):
+    """Dirección absoluta http(s) de una imagen, o None."""
+    if not u or not isinstance(u, str):
+        return None
+    u = html.unescape(u.strip())
+    if not u or u.startswith("data:"):
+        return None
+    u = urllib.parse.urljoin(base, u) if base else u
+    if urllib.parse.urlsplit(u).scheme not in ("http", "https"):
+        return None
+    return u[:1000]
+
+
+def imagen_de_html(fragmento, base=""):
+    """Primera <img src> de un fragmento HTML (resumen o contenido de un ítem del feed)."""
+    if not fragmento:
+        return None
+    m = re.search(r"""<img\b[^>]*?\bsrc\s*=\s*["']([^"']+)["']""", fragmento, re.I)
+    return url_imagen(m.group(1), base) if m else None
+
+
+def imagen_og(pagina, base=""):
+    """og:image (o twitter:image) de la página de una nota."""
+    if not pagina:
+        return None
+    cabeza = pagina[:300000]
+    for prop in ("og:image:secure_url", "og:image:url", "og:image", "twitter:image", "twitter:image:src"):
+        for m in re.finditer(r"<meta\b[^>]*>", cabeza, re.I):
+            tag = m.group(0)
+            if re.search(r"""(?:property|name)\s*=\s*["']%s["']""" % re.escape(prop), tag, re.I):
+                c = re.search(r"""content\s*=\s*["']([^"']+)["']""", tag, re.I)
+                u = url_imagen(c.group(1), base) if c else None
+                if u:
+                    return u
+    return None
+
+
 def _txt(el):
     return (el.text or "").strip() if el is not None else ""
 
@@ -489,6 +531,31 @@ def _reemplazar_entidades(cuerpo):
     return _ENTIDAD_HTML.sub(rep, cuerpo)
 
 
+_NS_MEDIA = "{http://search.yahoo.com/mrss/}"
+
+
+def _imagen_item_xml(it, base=""):
+    """Imagen de un ítem RSS: enclosure de imagen, media:content / media:thumbnail, o la primera <img> del texto."""
+    for enc in it.findall("enclosure"):
+        if (enc.get("type") or "").lower().startswith("image/"):
+            u = url_imagen(enc.get("url"), base)
+            if u:
+                return u
+    for el in it.iter():
+        if el.tag in (_NS_MEDIA + "content", _NS_MEDIA + "thumbnail"):
+            tipo = (el.get("type") or "").lower()
+            medio = (el.get("medium") or "").lower()
+            if el.tag.endswith("thumbnail") or medio == "image" or tipo.startswith("image/"):
+                u = url_imagen(el.get("url"), base)
+                if u:
+                    return u
+    for nombre in ("description", "{http://purl.org/rss/1.0/modules/content/}encoded"):
+        u = imagen_de_html(_txt(it.find(nombre)), base)
+        if u:
+            return u
+    return None
+
+
 def parsear_feed_stdlib(cuerpo, base_url=""):
     cuerpo = cuerpo.lstrip(b"\xef\xbb\xbf \t\r\n")
     try:
@@ -503,11 +570,13 @@ def parsear_feed_stdlib(cuerpo, base_url=""):
     base = root.get(_XML_BASE) or base_url
     items = []
     for it in root.findall(".//item"):          # RSS 2.0
+        link = urllib.parse.urljoin(base, _txt(it.find("link")) or _txt(it.find("guid")))
         items.append({
             "titulo": _txt(it.find("title")),
             "resumen": _txt(it.find("description")) or _txt(it.find("content:encoded", ns)),
-            "link": urllib.parse.urljoin(base, _txt(it.find("link")) or _txt(it.find("guid"))),
+            "link": link,
             "fecha": _txt(it.find("pubDate")) or _txt(it.find("dc:date", ns)),
+            "imagen": _imagen_item_xml(it, link),
         })
     if not items:
         for it in root.findall(".//a:entry", ns):   # Atom
@@ -535,6 +604,33 @@ def parsear_feed_stdlib(cuerpo, base_url=""):
     return items
 
 
+def _imagen_entrada_fp(e, base="", resumen=""):
+    """Imagen de una entrada de feedparser: media_content / media_thumbnail, enclosure de imagen o <img> del texto."""
+    try:
+        for m in (e.get("media_content") or []):
+            tipo = (m.get("type") or "").lower()
+            medio = (m.get("medium") or "").lower()
+            if medio == "image" or tipo.startswith("image/") or (not tipo and not medio):
+                u = url_imagen(m.get("url"), base)
+                if u:
+                    return u
+        for m in (e.get("media_thumbnail") or []):
+            u = url_imagen(m.get("url"), base)
+            if u:
+                return u
+        for l in (e.get("links") or []):
+            if l.get("rel") == "enclosure" and (l.get("type") or "").lower().startswith("image/"):
+                u = url_imagen(l.get("href"), base)
+                if u:
+                    return u
+        contenido = ""
+        if e.get("content"):
+            contenido = e["content"][0].get("value", "") or ""
+        return imagen_de_html(resumen, base) or imagen_de_html(contenido, base)
+    except Exception:
+        return None
+
+
 def parsear_feed(cuerpo, base_url="", tz_naive=dt.timezone.utc):
     """Devuelve lista de dicts {titulo, resumen, link, fecha(datetime|None)}."""
     items = []
@@ -553,8 +649,9 @@ def parsear_feed(cuerpo, base_url="", tz_naive=dt.timezone.utc):
                 if not resumen and e.get("content"):
                     resumen = e["content"][0].get("value", "")
                 link = e.get("link", "") or ""
+                link_abs = urllib.parse.urljoin(base_url, link) if link else ""
                 items.append({"titulo": e.get("title", ""), "resumen": resumen,
-                              "link": urllib.parse.urljoin(base_url, link) if link else "", "fecha": fecha})
+                              "link": link_abs, "fecha": fecha, "imagen": _imagen_entrada_fp(e, link_abs, resumen)})
             if items:
                 return items
         except Exception:
@@ -858,6 +955,7 @@ def procesar_fuente(fuente, desde, hasta, resultado):
                     "texto": None,
                     "texto_recortado": False,
                     "metodo": "rss",
+                    "imagen": url_imagen(it.get("imagen"), link_orig),
                 }
                 nota["temas"] = detectar_temas(nota)
                 notas.append(nota)
@@ -933,6 +1031,12 @@ def bajar_texto(fuente, notas, fallas, avisos, dom_base, sin_tiempo):
             seguidas += 1
             continue
         antibot_seguidos = 0
+        try:
+            og = imagen_og(cuerpo, url_nota)
+        except Exception:
+            og = None
+        if og:
+            n["imagen"] = og   # la imagen que el medio eligió para compartir la nota
         texto = extraer_texto(cuerpo)
         if texto:
             n["texto_recortado"] = len(texto) > MAX_TEXTO
@@ -1048,6 +1152,8 @@ def linea_indice(n, nombres, con_seccion=False):
     marca = ""
     if n.get("texto"):
         marca = " · TEXTO(parcial)" if n.get("texto_recortado") else " · TEXTO"
+    if n.get("imagen"):
+        marca += " · FOTO"
     temas = (" · #" + " #".join(n["temas"])) if n.get("temas") else ""
     sec = f"[{n['seccion_informe']}] " if con_seccion else ""
     tambien = (" · también en: " + ", ".join(n["tambien_en"])) if n.get("tambien_en") else ""
